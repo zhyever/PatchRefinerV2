@@ -83,7 +83,7 @@ This example performs inference using the `pr_u4k.py` configuration, loads the s
 ## Citation
 If you find our work useful for your research, please consider citing the paper
 ```
-@article{li2024patchrefinerv2,
+@article{li2025patchrefinerv2,
     title={PatchRefiner V2: Fast and Lightweight Real-Domain High-Resolution Metric Depth Estimation}, 
     author={Li, Zhenyu and Cui, Wenqing and Bhat, Shariq Farooq and Wonka, Peter},
     journal={arXiv preprint arXiv:2501.01121},
