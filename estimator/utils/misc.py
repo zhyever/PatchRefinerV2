@@ -1,0 +1,93 @@
+
+import random
+import numpy
+import torch
+import platform
+import sys
+from typing import List, Optional, Sequence, Tuple, Union
+from estimator.utils.config import DictConfig as ConfigDict
+from collections import OrderedDict
+
+
+ConfigType = Union[ConfigDict, dict]
+OptConfigType = Optional[ConfigType]
+MultiConfig = Union[ConfigType, List[ConfigType]]
+OptMultiConfig = Optional[MultiConfig]
+
+def fix_random_seed(seed: int):
+
+    random.seed(seed)
+    numpy.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+
+    torch.backends.cudnn.deterministic = True
+    # torch.backends.cudnn.deterministic = False # speed up maybe
+    torch.backends.cudnn.benchmark = True
+
+def _collect_env():
+    """Collect environment information."""
+    env = OrderedDict()
+    env['sys.platform'] = sys.platform
+    env['Python'] = sys.version
+    env['PyTorch'] = torch.__version__
+    env['CUDA available'] = torch.cuda.is_available()
+    if torch.cuda.is_available():
+        env['GPU'] = torch.cuda.get_device_name(0)
+        env['CUDA'] = torch.version.cuda
+    return env
+
+def log_env(cfg, env_cfg, runner_info, logger):
+    """Logging environment information of the current task.
+
+    Args:
+        env_cfg (dict): The environment config of the runner.
+    """
+    # Collect and log environment information.
+    env = _collect_env()
+    runtime_env = OrderedDict()
+    runtime_env.update(env_cfg)
+    runtime_env['seed'] = runner_info.seed
+    runtime_env['Distributed launcher'] = runner_info.launcher
+    runtime_env['Distributed training'] = runner_info.distributed
+    runtime_env['GPU number'] = runner_info.world_size
+
+    env_info = '\n    ' + '\n    '.join(f'{k}: {v}'
+                                        for k, v in env.items())
+    runtime_env_info = '\n    ' + '\n    '.join(
+        f'{k}: {v}' for k, v in runtime_env.items())
+    dash_line = '-' * 60
+    logger.info('\n' + dash_line + '\nSystem environment:' +
+                    env_info + '\n'
+                    '\nRuntime environment:' + runtime_env_info + '\n' +
+                    dash_line + '\n')
+
+    if hasattr(cfg, '_cfg_dict') and cfg._cfg_dict:
+        logger.info(f'Config:\n{cfg.pretty_text}')
+    elif hasattr(cfg, 'to_dict'):
+        logger.info(f'Config:\n{cfg.to_dict()}')
+
+def rescale_tensor(tensor, a, b):
+    tensor_min = torch.min(tensor)
+    tensor_max = torch.max(tensor)
+
+    # Normalize to [0, 1]
+    normalized_tensor = (tensor - tensor_min) / (tensor_max - tensor_min)
+
+    # Rescale to [a, b]
+    rescaled_tensor = a + (b - a) * normalized_tensor
+
+    return rescaled_tensor
+
+def rescale_tensor_train(tensor, a, b):
+    tensor_min = torch.min(tensor)
+    tensor_max = torch.max(tensor)
+
+    # Normalize to [0, 1]
+    normalized_tensor = (tensor - tensor_min) / (tensor_max - tensor_min + 1e-6)
+
+    # Rescale to [a, b]
+    rescaled_tensor = a + (b - a) * normalized_tensor
+
+    return rescaled_tensor

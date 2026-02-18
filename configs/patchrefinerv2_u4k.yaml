@@ -1,0 +1,134 @@
+# PatchRefinerV2 - UnrealStereo4K configuration
+# Model: PatchRefinerPlus with ZoeDepth coarse branch + MobileNetV4 refiner
+
+model:
+  type: PatchRefinerPlus
+  config:
+    e2e_training: true
+    pretrain_stage: false
+
+    image_raw_shape: [2160, 3840]
+    patch_process_shape: [384, 512]
+    patch_raw_shape: [540, 960]
+    patch_split_num: [4, 4]
+    image_raw_process_shape: [384, 512]
+
+    fusion_feat_level: 6
+    min_depth: 0.001
+    max_depth: 80
+
+    pretrain_coarse_model: null
+    strategy_refiner_target: offset_coarse
+
+    coarse_branch:
+      type: ZoeDepth
+      min_depth: 0.001
+      max_depth: 80
+      midas_model_type: DPT_BEiT_L_384
+      pretrained_resource: null
+      use_pretrained_midas: true
+      train_midas: true
+      freeze_midas_bn: true
+      do_resize: false
+      attractor_alpha: 1000
+      attractor_gamma: 2
+      attractor_kind: mean
+      attractor_type: inv
+      aug: true
+      bin_centers_type: softplus
+      bin_embedding_dim: 128
+      clip_grad: 0.1
+      dataset: nyu
+      distributed: true
+      force_keep_ar: true
+      gpu: 'NULL'
+      img_size: [384, 512]
+      inverse_midas: false
+      log_images_every: 0.1
+      max_temp: 50.0
+      max_translation: 100
+      memory_efficient: true
+      min_temp: 0.0212
+      model: zoedepth
+      n_attractors: [16, 8, 4, 1]
+      n_bins: 64
+      name: ZoeDepth
+      notes: ''
+      output_distribution: logbinomial
+      prefetch: false
+      print_losses: false
+      project: ZoeDepth
+      random_crop: false
+      random_translate: false
+      root: '.'
+      save_dir: ''
+      shared_dict: 'NULL'
+      tags: ''
+      translate_prob: 0.2
+      uid: 'NULL'
+      use_amp: false
+      use_shared_dict: false
+      validate_every: 0.25
+      version_name: v1
+      workers: 16
+
+    refiner:
+      fine_branch:
+        type: LightWeightRefiner
+        coarse_condition: true
+        with_decoder: false
+        encoder_name: mobilenetv4_conv_small.e2400_r224_in1k
+      fusion_model:
+        type: BiDirectionalFusion
+        encoder_name: mobilenetv4_conv_small.e2400_r224_in1k
+        coarse2fine: true
+        coarse2fine_type: coarse-gated
+        coarse_chl: [32, 256, 256, 256, 256, 256]
+        fine_chl: [32, 32, 64, 96, 960]
+        fine_chl_after_coarse2fine: [32, 256, 256, 256, 256, 256]
+        temp_chl: [32, 64, 64, 128, 256, 512]
+        dec_chl: [512, 256, 128, 64, 32]
+
+    sigloss:
+      type: SILogLoss
+    gmloss:
+      type: GradMatchLoss
+
+    sigweight: 1
+    pre_norm_bbox: true
+    pretrained: null
+    whole_pretrained: null
+
+collect_input_args:
+  - image_lr
+  - image_hr
+  - crops_image_hr
+  - depth_gt
+  - crop_depths
+  - bboxs
+
+# Benchmark evaluation dataloader (UnrealStereo4K)
+val_dataloader:
+  batch_size: 1
+  num_workers: 2
+  dataset:
+    type: UnrealStereo4kDataset
+    mode: infer
+    data_root: ./data/u4k
+    split: ./data/u4k/splits/val.txt
+    min_depth: 0.001
+    max_depth: 80
+    transform_cfg:
+      network_process_size: [384, 512]
+
+# General inference dataloader (custom images)
+general_dataloader:
+  batch_size: 1
+  num_workers: 2
+  dataset:
+    type: ImageDataset
+    rgb_image_dir: ''
+    dataset_name: ''
+    gt_dir: null
+    network_process_size: [384, 512]
+    resize_mode: zoe

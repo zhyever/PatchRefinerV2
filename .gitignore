@@ -1,0 +1,32 @@
+# Data and checkpoints
+data/
+work_dir/
+output/
+*.pth
+*.ckpt
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+wandb/
+
+# Env
+.env
