@@ -2,7 +2,7 @@
 <h1>PatchRefinerV2 </h1>
 <h3>Fast and Lightweight Real-Domain High-Resolution <br> Metric Depth Estimation</h3>
 
-[![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://arxiv.org/abs/2501.01121) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Website](docs/badge-website.svg)](https://zhyever.github.io/PatchRefinerV2/) [![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://arxiv.org/abs/2501.01121) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 <a href="https://zhyever.github.io/">Zhenyu Li</a>, <a href="https://www.linkedin.com/in/wenqing-cui-a2434431a/?originalSubdomain=sa">Wenqing Cui</a>, <a href="https://shariqfarooq123.github.io/">Shariq Farooq Bhat</a>, <a href="https://peterwonka.net/">Peter Wonka</a>. 
 <br>KAUST

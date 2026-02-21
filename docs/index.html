@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="PatchRefinerV2">
+  <meta name="keywords" content="PatchRefinerV2">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PatchRefinerV2</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="./static/css/bootstrap-4.4.1.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./images/favicon.png">
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/app.js"></script>
+  <script src="./static/js/video_comparison.js"></script>
+
+  <link rel="stylesheet" href="./static/css/dics.original.css">
+  <script src="./static/js/event_handler.js"></script>
+  <script src="./static/js/dics.original.js"></script>
+
+  <script src="https://kit.fontawesome.com/e8d9e5563c.js" crossorigin="anonymous"></script> 
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <!-- <h1 class="title is-1 publication-title" style="margin-bottom: 0"><strong>PatchRefinerV2</strong></h1> -->
+          <h2 class="title is-3 publication-title" style="margin-top: 0; margin-bottom: 0">PatchRefinerV2: Fast and Lightweight Real-Domain High-Resolution Metric Depth Estimation</h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://zhyever.github.io/">Zhenyu Li</a>,  </span>
+            <span class="author-block">
+                <a href="https://www.linkedin.com/in/wenqing-cui-a2434431a/?originalSubdomain=sa">Wenqing Cui</a>,  </span>
+            <span class="author-block">
+              <a href="https://shariqfarooq123.github.io/">Shariq Farooq Bhat</a>,  </span>
+            <span class="author-block">
+              <a href="https://peterwonka.net/">Peter Wonka</a>
+            </span>
+          </div>
+          
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup></sup>KAUST</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- Paper Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2501.01121" 
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/zhyever/PatchRefinerV2"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+
+      
+          <div style="display: flex; justify-content: space-between;">
+            <div style="flex: 1; padding-right: 10px;">
+              <img src="./images/speed_compare_v2.gif" alt="left" width="110%">
+            </div>
+            <div style="flex: 1; padding-left: 10px;">
+              <img src="./images/compare.png" alt="right" width="80%">
+            </div>
+          </div>
+          
+          <div style="text-align:center;">
+            <p style="margin-top: 10px">
+              PatchRefinerV2 is a fast and lightweight high-resolution monocular metric depth estimation model that can be trained on real-domain datasets without high-quality depth annotations.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-top: -30px">Overview</h2>
+        <div class="content has-text-justified">
+          <p>
+            <br>
+            We introduce PatchRefiner V2 (PRV2), a <strong><font color="red">fast</font></strong> and <strong><font color="red">lightweight</font></strong> high-resolution monocular metric depth estimation framework that can be trained on real-domain datasets without high-quality depth annotations.
+            <br>
+            It's an advanced version of <a href="https://github.com/zhyever/PatchRefiner" target="_blank">PatchRefiner</a> (PRV1) and here are the key contributions:
+            <br>
+            <ol>
+              <li>We replace the heavy refiner models in PRV1 with lightweight encoders. This reduces model size and inference time but introduces noisy features. </li>
+              <li>To overcome this, we propose a Coarse-to-Fine (C2F) module with a Guided Denoising Unit for refining and denosing the refiner features, and a Noisy Pretraining (NP) strategy to pretrain the refiner branch to fully exploit the potential of the lightweight refiner branch.</li>
+              <li>We introduce a Scale-and-Shift Invariant Gradient Matching (SSIGM) loss to enhance synthetic-to-real domain transfer.</li>
+            </ol>
+
+            <br>
+            <br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="Metric Depth results">
+  <div class="container is-max-desktop">
+
+    <!-- Results. -->
+    <div class="columns is-centered ">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered" style="margin-top: -30px">👀 Interactive Comparison</h2>        
+        <p style="text-align:center; " class="has-text-centered">
+          Drag for interactive comparison. 
+          <br>
+          <br>
+        </p>
+        <p style="text-align:center; " class="has-text-centered">
+          <h2 class="title is-4">Zero-Shot Transfer Samples from Internet (Synthetic Data)</h2>
+        </p>
+        <div style="text-align:center;">
+          <p style="margin-top: 0px">
+            <strong><font color="red"> Results are from PRV2<sub>E</sub>. </font></strong>
+          </p>
+        </div>
+        <br>
+        <br>
+
+        <div class="container">
+          <ul class="nav nav-tabs nav-fill nav-justified" id="object-scale-recon">
+              <li class="nav-item">
+                <a class="nav-link active" onclick="objectSceneEvent(0)">1</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEvent(1)">2</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEvent(2)">3</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEvent(3)">4</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEvent(4)">5</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEvent(5)">6</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEvent(6)">7</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEvent(7)">8</a>
+              </li>
+          </ul>
+          <div class="b-dics" style="width: 1000px; font-weight: 600;">
+              <img src="images/zs1.jpg" alt="RGB">
+              <img src="images/zs1_pred.jpg" alt="Ours">
+              <img src="images/zs1_base.jpg" alt="ZoeDepth"> 
+          </div>
+        </div>
+
+        <br>
+        
+        <br>
+        <br><br>
+        <h3 class="title is-4">In-Domain Samples from KITTI (Synthetic + Real-Domain Data)</h3>
+        <div style="text-align:center;">
+        <!-- <p style="margin-top: 0px">
+          <strong><font color="red"> Results are from PRV1_Zoe with the SSIGM loss. </font></strong>
+        </p> -->
+        </div>
+        <p style="text-align:center; " class="has-text-centered">
+          <br>
+          <br>
+        </p>
+        <div class="container">
+          <ul class="nav nav-tabs nav-fill nav-justified" id="id-kitti-recon">
+              <li class="nav-item">
+                <a class="nav-link active" onclick="id_kitti(0)">1</a>
+              </li>      
+              <li class="nav-item">
+                <a class="nav-link" onclick="id_kitti(1)">2</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="id_kitti(2)">3</a>
+              </li>
+          </ul>
+          <div class="b-dics" style="width: 1000px; font-weight: 600;">
+              <img src="images/kitti_id1.jpg" alt="RGB">
+              <img src="images/kitti_id1_ours.jpg" alt="Ours">
+              <img src="images/kitti_id1_zoe.jpg" alt="ZoeDepth"> 
+          </div>
+        </div>
+        
+        <br><br>
+
+        <h3 class="title is-4">In-Domain Samples from CityScapes (Synthetic + Real-Domain Data)</h3>
+        <p style="text-align:center; " class="has-text-centered">
+          <!-- The weight of the pseudo-labeling loss follows the default setting in the paper. -->
+          <br>
+          <br>
+        </p>
+        <div class="container">
+          <ul class="nav nav-tabs nav-fill nav-justified" id="id-cs-recon">
+              <li class="nav-item">
+                <a class="nav-link active" onclick="id_cs(0)">1</a>
+              </li>      
+              <li class="nav-item">
+                <a class="nav-link" onclick="id_cs(1)">2</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="id_cs(2)">3</a>
+              </li>
+          </ul>
+          <div class="b-dics" style="width: 1000px; font-weight: 600;">
+              <img src="images/cs_id1.jpg" alt="RGB">
+              <img src="images/cs_id1_ours.jpg" alt="Ours">
+              <img src="images/cs_id1_zoe.jpg" alt="ZoeDepth"> 
+          </div>
+        </div>
+        
+        <br><br>
+
+        <h3 class="title is-4">In-Domain Samples from ScanNet++ (Synthetic + Real-Domain Data)</h3>
+        <p style="text-align:center; " class="has-text-centered">
+          <br>
+          <br>
+        </p>
+        <div class="container">
+          <ul class="nav nav-tabs nav-fill nav-justified" id="id-scannet-recon">
+              <li class="nav-item">
+                <a class="nav-link active" onclick="id_scannet(0)">1</a>
+              </li>      
+              <li class="nav-item">
+                <a class="nav-link" onclick="id_scannet(1)">2</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="id_scannet(2)">3</a>
+              </li>
+          </ul>
+          <div class="b-dics" style="width: 1000px; font-weight: 600;">
+              <img src="images/scan_id1.jpg" alt="RGB">
+              <img src="images/scan_id1_ours.jpg" alt="Ours">
+              <img src="images/scan_id1_zoe.jpg" alt="ZoeDepth"> 
+          </div>
+        </div>
+        <br>
+        <br>
+
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-top: -30px">Video Demo</h2>
+        <div class="content has-text-justified">
+          <p>
+            We present our depth prediction on KITTI dataset with a demo here.
+          </p>
+
+          <body>
+            <video loop="loop" controls="controls">
+          <source src="./images/video_kitti.mp4" type="video/mp4"></source></video>
+         </body>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-top: -30px">Method</h2>
+        <div class="content has-text-justified">
+          <p>
+            <div style="text-align:center;">
+              <p style="margin-top: 0px">
+                <strong>Limitations of PRV1</strong>
+              </p>
+            </div>
+            <br>
+
+            The PR framework encounters significant challenges with the computational efficiency and scalability for real-world applications due to the shared usage of the base depth model (e.g., ZoeDepth) across both the coarse and refiner branches. For a given input image, while the coarse branch processes the downsampled image once to gather global information, the refiner branch requires multiple inferences (at least 16 in PR's default mode) for the patches. Since both branches share the same architecture, the refiner branch becomes the primary efficiency bottleneck. Our goal is to alleviate this bottleneck as much as possible.
+            <br>
+            Moreover, a heavy framework makes end-to-end training infeasible due to GPU memory limitations. The PR framework has to adopt two stages for training the framework, where global and local branches are trained sequentially. This results in a long training time and suboptimal performance. While the authors claim that multiple-stage training could potentially lead to stage-wise local optima, our goal is to pursue end-to-end training.
+            <br>
+            <center>
+              <img src="images/arch.png" class="" style="width: 60%;margin-bottom: 0%;">
+              <p style="margin-top: -1px">
+                <b><I>Framework Comparision: PRV1 vs. PRV2</I></b>
+              </p>
+            </center>
+
+
+            <br>
+            We propose a simple solution to address PRV1's limitations: a lightweight architecture for the refiner branch.
+            
+            <br>
+            This substitution significantly increases inference speed, reduces the model size, and enables end-to-end training. However, it also results in a noticeable decline in refinement quality compared to previous methods. We attribute this decline to the lack of depth-aligned feature representation in the refiner branch. 
+            
+            <br>
+            To compensate for the loss in model capacity and depth-pretraining by the proposed substitution, we introduce a better architecture design, a Coarse-to-Fine (C2F) Module, and a fast and simple pre-training strategy, Noisy Pretraining (NP).
+
+            <br>
+            <br>
+            <div style="text-align:center;">
+              <p style="margin-top: 0px">
+                <strong>Coarse-to-Fine (C2F) Module and Noisy Pretraining (NP)</strong>
+              </p>
+            </div>
+            <br>
+
+            <center>
+              <img src="images/vis_feat.png" class="" style="width: 100%;margin-bottom: 0%;">
+              <p style="margin-top: -1px">
+                <b><I>Visualization of F2C input feature maps. Without the C2F module, the refiner features are noisy and hard to interpret. (d) The C2F module helps denoise the refiner features, leading to clear boundaries and better results.</I></b>
+              </p>
+            </center>
+
+            <center>
+              <img src="images/c2f.png" class="" style="width: 100%;margin-bottom: 0%;">
+              <p style="margin-top: -1px">
+                <b><I>Coarse-to-Fine (C2F) Module Overview</I></b>
+              </p>
+            </center>
+
+
+            <br>
+            C2F: The proposed Coarse-to-Fine (C2F) module processes the multi-scale features extracted from the lightweight encoder through N successive C2F layers in a bottom-to-up manner, mirroring the design of the Fine-to-Coarse (F2C) module. Each C2F layer is designed to enhance and denoise the refiner features progressively with the help of coarse feature representations.
+            <br>
+            NP: Prior to the high-resolution training, we pretrain the lightweight encoder along with the C2F and F2C modules. We randomly generate the coarse features using a normal distribution as inputs. This forces the refiner branch to learn depth-relevant features without any guidance from the coarse branch.
+            
+            <br>
+            <div style="text-align:center;">
+              <p style="margin-top: 0px">
+                <strong>Scale-and-Shift Invariant Gradient Matching Loss</strong>
+              </p>
+            </div>
+            <br>
+            Finally, the PRV1 employs the Detail and Scale Disentangling (DSD) training strategy to adapt the high-resolution depth estimation framework to real-domain datasets, which enables learning detail from synthetic data and scale from the real domain. To isolate the scale from the synthetic data, the DSD strategy uses a ranking loss and Scale-and-Shift Invariant (SSI) loss. 
+            <br>
+            We propose to replace the SSI loss with the Scale-and-Shift Invariant Gradient Matching (SSIGM) loss to learn high-frequency details from the synthetic data directly. 
+
+            <br>
+            <br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-top: -30px">Quatitative Comparison</h2>
+        <div class="content has-text-justified">
+          <p>
+            It
+            <br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3  has-text-centered">🔥 Citation</h2>
+            <div class="language-css">
+            <pre style="">
+<code>@article{li2024patchrefinerv2,
+  title={PatchRefinerV2: Fast and Lightweight Real-Domain High-Resolution Metric Depth Estimation}, 
+  author={Li, Zhenyu and Cui, Wenqing and Bhat, Shariq Farooq and Wonka, Peter},
+  year={2025},
+  journal={arXiv preprint arXiv:2501.01121},
+  primaryClass={cs.CV}}</code></pre>  
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+            This webpage template is from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> and Mip-Splatting<a href="https://niujinshuchong.github.io/mip-splatting/">. 
+            We sincerely thank <a href="https://keunhong.com/">Keunhong Park</a> and <a href="https://niujinshuchong.github.io/">Zehao Yu</a> for developing and open-sourcing this template.  
+            The image comparison with sliding bar is from <a href="https://research.nvidia.com/labs/dir/neuralangelo/">Neuralangelo</a> and <a href="https://jugghm.github.io/Metric3Dv2/">Metric3D V2</a>. 
+          </p>
+        </div>
+      </div>
+          <p></p>
+        </div>
+      </div>
+</footer>
+
+</body>
+</html>
